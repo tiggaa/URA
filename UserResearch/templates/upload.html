@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% from 'includes/_formhelpers.html' import render_field, render_field_grid, save_cancel %}
+{% block body %}
+<form method="POST" action="" enctype="multipart/form-data">
+    {{render_field(upload_form.csrf_token)}}
+    <div class="row my-0 py-0">
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <h1><small>Upload</small></h1>
+            </div>
+            <div class="col-md-12">
+                <div>
+                    {{render_field_grid(upload_form.file)}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6"></div>
+                {{save_cancel('Upload', 'index')}}
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

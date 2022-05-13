@@ -1,0 +1,428 @@
+//Color variable
+$navbar-background: #205081;
+$navbar-text: #fff;
+$navbar-hover: #296ca3;
+$body-color:#f0f8ff;
+$fieldset-border: #000;
+$fieldset-background: #D1E9FF;
+$legend-background: #205081;
+// font variable
+$font: Arial;
+* {
+    font-size: 1rem;
+    font-family: $font;
+    padding: 0.5px;
+}
+
+body {
+    background-color: $body-color !important;
+}
+
+
+/*** Traffic light toggle buttons ***/
+.custom-control-input:checked~.custom-control-label::before {
+    background-color: #00ff00 !important;
+}
+.custom-control-label::before {
+    background-color: #ff0000 !important;
+}
+.custom-switch {
+    padding-left: 5rem !important;
+}
+
+/*** Navbar section***/
+
+.bg-navbar {
+    background: $navbar-background !important;
+}
+
+// white text to nav link
+.navbar-dark .navbar-nav .nav-link {
+    color: $navbar-text !important;
+    padding-right: 25px !important;
+    padding-left: 25px !important;
+}
+
+// hover style
+.active,
+.nav-link:hover {
+    background-color: $navbar-hover;
+    // color: #f0f0f0;
+    cursor: pointer;
+}
+
+//medevac station header
+.station{
+    background-color:lightgrey;
+}
+
+fieldset {
+    border: 1px solid $fieldset-border !important;
+    margin: 0;
+    border-radius: 4px;
+    position: relative;
+    background-color: $fieldset-background;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+legend {
+    width: auto;
+    font-weight: bold;
+    margin-bottom: 0px;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: $legend-background;
+    color: white;
+}
+
+.row {
+    margin-bottom: 5px;
+}
+
+.w-25,
+.w-35,
+.w-40 {
+    text-align: center;
+}
+
+.w-35 {
+    width: 35% !important;
+}
+
+.w-40 {
+    width: 40% !important;
+}
+
+::placeholder {
+    color: #888888 !important;
+    opacity: 1 !important;
+}
+
+.flag {
+    margin-top: -5px;
+    padding-top: -10px;
+}
+
+/*** Click Button CSS Start***/
+
+// Coped from GDS Gov Website
+.govuk-button {
+    font-family: "GDS Transport", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.1875;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 22px;
+    padding: 8px 10px 7px;
+    border: 2px solid transparent;
+    border-radius: 0rem !important;
+    color: #fff;
+    text-align: center;
+    vertical-align: top;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.btn {
+    border-radius: 0rem !important;
+}
+
+// save button color
+.save {
+    background-color: #00703c;
+    -webkit-box-shadow: 0 2px 0 #002d18;
+    box-shadow: 0 2px 0 #002d18;
+    color: #fff;
+}
+
+.save:hover {
+    background-color: #005a30;
+    color: #fff;
+}
+
+//cancel button color
+.cancel {
+    background-color: #F3A83B;
+    -webkit-box-shadow: 0 2px 0 #ca8223;
+    box-shadow: 0 2px 0 #d1820c;
+}
+
+.cancel:hover {
+    background-color: #ca8223;
+    color:#fff;
+}
+
+//delete button color
+.warning {
+    background-color: #d4351c;
+    -webkit-box-shadow: 0 2px 0 #55150b;
+    box-shadow: 0 2px 0 #55150b;
+    color: #fff;
+}
+
+.warning:hover {
+    background-color: #aa2a16;
+    color: #fff;
+}
+
+// delete button ID
+
+.govuk-button--secondary {
+    background-color: #f3f2f1 !important;
+    -webkit-box-shadow: 0 2px 0 #929191 !important;
+    box-shadow: 0 2px 0 #929191 !important;
+}
+
+.govuk-button--secondary:hover {
+    background-color: #dbdad9 !important;
+}
+
+button>a {
+    color: #0b0c0c;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: #0b0c0c;
+}
+
+/***Table CSS Start***/
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.tableFixhead thead th {
+    position: sticky;
+    top: 0px;
+}
+
+.table .thead-dark th {
+    background-color: #575757;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(odd) {
+    background-color: #c0c0c0;
+}
+
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:before {
+    right: 1em;
+    content: "\2191" !important;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:after {
+    content: "\2193" !important;
+    right: 0.5em !important;
+}
+
+table.dataTable thead .sorting:before, table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:after {
+  bottom: 0.01em !important;
+  opacity: 0.3 !important;
+}
+
+table.dataTable thead .hidesort:after,
+table.dataTable thead .hidesort:before {
+    content:none !important;
+}
+
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:before,
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:after {
+  font-size: 0.9rem !important;
+}
+
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:after{
+  opacity: 1 !important;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #aaaaaa;
+}
+
+.pre-scrollable {
+    overflow-x:hidden
+}
+
+.table .actual {
+    color: #000000;
+}
+
+.table .eta {
+    color:white;
+    background-color:  #6c6d7a;
+}
+
+
+/***************Media Query******************/
+
+
+@media (max-width: 1024px) {
+    * {
+        font-size: 0.7rem;
+    }
+    .nav-link {
+        font-size: 0.8rem;
+    }
+    .govuk-button {
+        font-size: 0.7rem;
+    }
+   .dds-table-wide {
+        font-size: 5.5px;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1366px) {
+    * {
+        font-size: 1vw;
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+    .govuk-button {
+        font-size: 0.8rem;
+    }
+   .dds-table-wide {
+        font-size: 0.7rem;
+    }
+}
+
+@media (min-width: 1367px) and (max-width: 1479px) {
+    * {
+        font-size: 1vw;
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+    .govuk-button {
+        font-size: 1rem;
+    }
+   .dds-table-wide {
+        font-size: 0.72rem;
+    }
+}
+
+@media (min-width: 1480px) and (max-width: 1799px) {
+    * {
+        font-size: 1vw;
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+    .govuk-button {
+        font-size: 1rem;
+    }
+   .dds-table-wide {
+        font-size: 0.73rem;
+    }
+}
+
+@media (min-width: 1800px) and (max-width: 1999px){
+    * {
+        font-size: 1vw;
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+    .govuk-button {
+        font-size: 1rem;
+    }
+   .dds-table-wide {
+        font-size: 0.76rem;
+    }
+}
+
+@media (min-width: 2000px) and (max-width: 2200px) {
+    * {
+        font-size: 1vw;
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+    .govuk-button {
+        font-size: 1rem;
+    }
+   .dds-table-wide {
+        font-size: 0.78rem;
+    }
+}
+
+@media (min-width: 2201px) and (max-width: 2299px) {
+    * {
+        font-size: 1rem;
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+    .govuk-button {
+        font-size: 1rem;
+    }
+   .dds-table-wide {
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 2300px) and (max-width: 2600px) {
+    * {
+        font-size: 1rem;
+    }
+    .nav-link {
+        font-size: 1rem;
+    }
+   .dds-table-wide {
+        font-size: 0.95rem;
+    }
+}
+
+@media (min-width: 2601px) and (max-width: 3799px) {
+    * {
+        font-size: 1.1rem;
+    }
+    .nav-link {
+        font-size: 1.1rem;
+    }
+   .dds-table-wide {
+        font-size: 1rem;
+    }
+}
+

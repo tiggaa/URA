@@ -1,0 +1,297 @@
+{% macro render_field(field, editable=True, class_="") %}
+  {% if editable %}
+    {% set class_ = "{} form-control".format(class_) %}
+    {% if field.errors %}
+      {% set class_ = "{} is-invalid".format(class_) %}
+    {% endif %}
+    {% set classkwargs = kwargs | dict_but(class_=class_) %}
+    {{ field(**classkwargs)|safe }}
+  {% else %}
+    {% if field.__class__.__name__ == 'SelectField' %}
+      {% set thisvalue = dict(field.choices)[field.data] %}
+    {% else %}
+      {% set thisvalue = field.data | dtg_format %}
+    {% endif %}
+    <label class="form-control-plaintext w-auto {{ class_ }}"
+      id="{{ field.name }}">
+      {{ thisvalue }}
+    </label>
+    <input type="hidden" name="{{ field.name }}" value="{{ field.data | iso_8601_format }}">
+  {% endif %}
+  {% if field.errors %}
+    {% for error in field.errors %}
+      <div class="help-inline text-danger" >{{ error }}</div>
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro render_toggle(name, checked, value, label) %}
+  {% set thisid = "{}{}".format(name, value) %}
+  <div class="col-lg-12 custom-control custom-switch">
+    <input {% if checked %}checked{% endif %}
+      class="custom-control-input form-control"
+      id="{{thisid}}" name="{{name}}" type="checkbox"
+      value="{{value}}">
+    <label class="custom-control-label" for="{{thisid}}">
+      {{ label }}
+    </label>
+  </div>
+{% endmacro %}
+
+{% macro render_toggles(field, scrollbar=False, class_='') %}
+  <fieldset class="{{ class_ }}">
+    <legend>{{ field.label }}</legend>
+    <div class="form-group row{% if scrollbar %} pre-scrollable{% endif %}">
+      {% for id, label in field.choices %}
+        {{ render_toggle(
+            field.name,
+            id in field.data,
+            id,
+            label,
+        ) }}
+      {% endfor %}
+    </div>
+  </fieldset>
+{% endmacro %}
+
+{% macro render_field_grid(field, left=4, right=8) %}
+  <div class="form-group row">
+    <label class="col-lg-{{ left }} col-form-label">{{field.label}}</label>
+    <div class="col-lg-{{ right }}">{{ render_field(field, **kwargs) }}</div>
+  </div>
+{% endmacro %}
+
+{% macro render_fieldpair_grid(field1, field2, lefteditable=True, righteditable=True, leftshow=True, rightshow=True) %}
+  <div class="form-group row">
+    <label class="col-lg-4 col-form-label">{{ field2.label }}</label>
+    <div class="form-inline col-lg-8">
+      <div>
+        {% if leftshow %}
+        {{ render_field(field1, editable=lefteditable) }}
+        {% endif %}
+        {% if leftshow and rightshow %}
+        <i> &nbsp / &nbsp</i>
+        {% endif %}
+        {% if rightshow %}
+        {{ render_field(field2, editable=righteditable) }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro save_cancel(save='Save', endpoint='MTF.listedit') %}
+  <div class="col-lg-3">
+    <a class='btn govuk-button cancel' href="{{ url_for(endpoint, **kwargs) }}">Cancel</a>
+  </div>
+  <div class="col-lg-3">
+    <input type='submit' class='btn govuk-button save' value='{{ save }}'>
+  </div>
+{% endmacro %}
+
+{% macro flag_updater() %}
+  let Nationality_id = document.getElementById('Nationality_id');
+  let Flag = document.getElementById('Flag');
+  function flag_selector() {
+    n_id = Nationality_id.value;
+    if (n_id === '0') {
+      Flag.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' // blank
+    } else {
+      Flag.src = {{ url_for('static',filename='image/flags/') | tojson }} +
+        Nationality_id.options[Nationality_id.selectedIndex].label +
+        ".png"
+    }
+  }
+  $(document).ready(flag_selector)
+{% endmacro %}
+
+{% macro render_delete_modal(blueprint) %}
+  {% set thismethod = "{}.delete" .format(blueprint) %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Confirm Deletion" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+              <button type="button" class="close ,-1" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
+              <form action="{{ url_for(thismethod, **kwargs) }}" method="POST">
+                <input class="btn btn-danger" type="submit" value="Delete">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endmacro %}
+
+{# Renders a modal dialog that will pop up when a button is clicked.
+     The button should be created using render_modal_button
+     NOTE: We had to do it as two seeprate macros like this as creating the button and the dialog together
+     didn't work in bootstrap and only the last modal would work.
+#}
+{% macro render_modal_dialog(blueprint, action) %}
+  {% set thismethod = "{}.{}" .format(blueprint, action) %}
+  <div class="modal fade" id="{{ action }}Modal" tabindex="-1" role="dialog" aria-labelledby="Confirm {{ action }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="{{ action }}ModalLabel">Confirm {{ action }}</h5>
+            <button type="button" class="close ,-1" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Cancel</button>
+          <form action="{{ url_for(thismethod, **kwargs) }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="{{ action|capitalize }}">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{# Renders a button that displays a modal dialog.
+     Use render_modal_dialog to create the dialog you will pop up
+     See: render_modal_dialog for more info
+#}
+{% macro render_modal_dialog_button(blueprint, action) %}
+  <button type="button" class="btn govuk-button warning" data-toggle="modal" data-target="#{{ action }}Modal">
+    {{ action|capitalize }}
+  </button>
+{% endmacro %}
+
+{% macro select_field_value(field) %}
+{{field.choices[field.data][1]}}
+{% endmacro %}
+
+{% macro flag(nation, width=30) %}
+  <img data-toggle="tooltip" data-placement="bottom"
+    title="{{ nation }}"
+    src="{{ url_for('static',filename='image/flags/')}}{{ nation }}.png"
+    class="image-fluid" width="{{ width }}px"
+  />
+{% endmacro %}
+
+{% macro station_header(medevac_station_form, location_form) %}
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+      <fieldset class="font-weight-bold">
+        <legend><label>MEDEVAC Station</label></legend>
+          <label class="col-lg-2 col-form-label">
+            Nation: {{ flag(select_field_value(medevac_station_form.Nationality_id)) }}
+          </label>
+          <label class="col-lg-3 col-form-label">Callsign: {{(medevac_station_form.CallSign.data)}}</label>
+          <label class="col-lg-3 col-form-label">Environment: {{select_field_value(medevac_station_form.Environment_id)}}</label>
+          <label class="col-lg-3 col-form-label">Location: {{location_form.MGRS.data}}</label>
+      </fieldset>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro mtf_header(mtf_form, location_form) %}
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+      <fieldset class="font-weight-bold">
+        <legend><label>MTF</label></legend>
+          <label class="col-lg-2 col-form-label">
+            Nation: {{ flag(select_field_value(mtf_form.Nationality_id)) }}
+          </label>
+          <label class="col-lg-3 col-form-label">Callsign: {{(mtf_form.CallSign.data)}}</label>
+          <label class="col-lg-3 col-form-label">{{ mtf_form.Role_id.label }}: {{select_field_value(mtf_form.Role_id)}}</label>
+          <label class="col-lg-3 col-form-label">Location: {{location_form.MGRS.data}}</label>
+      </fieldset>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro mission_header(mission) %}
+  <div class="row">
+    <div class="col-lg-3">
+      <h2 class="page-title">MEDEVAC Mission:</h2>
+    </div>
+    <div class="col-lg-8 row border border-dark rounded-sm font-weight-bold station">
+      <label class="col-lg-2 col-form-label">Mission: {{mission.id}}</label>
+      <label class="col-lg-2 col-form-label">Incident: {{mission.Incident_id}}</label>
+      <label class="col-lg-3 col-form-label">Asset Tasked: {{ mission.asset.Type.Name }}</label>
+      <label class="col-lg-2 col-form-label">MTF Tasked: {{ mission.mtf.CallSign }}</label>
+      <label class="col-lg-3 col-form-label">Tasked at: {{mission.Created | dtg_format}}</label>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro datatable(sort_column=0, sort_dir="asc") %}
+  $(document).ready(function() {
+    $('table.display').DataTable({
+        // Pagination (eg, simple, numbers, simple_numbers, full, full_numbers, first_last_numbers)
+        "pagingType": "simple_numbers",
+        // Sorting Order
+          {% if sort_column >= 0 %}
+          "order":[[{{ sort_column }}, "{{ sort_dir }}"]]
+          {% else %}
+          "ordering":false
+          {% endif %}
+          ,
+        //Show entries number
+        "aLengthMenu": [10, 25, 50, 100]
+    });
+    $('.dataTables_length').addClass('bs-select');
+
+    {% if sort_column >= 0 %}
+    $("table.dataTable thead tr th").on('click', sort_highlight)
+    function highlight_util(table, index) {
+      table.find('td').removeAttr('style');
+      table.find('tr').each(function() {
+        $(this).find('td').eq(index).css('background-color','#c0c0c0');
+      });
+    }
+
+    function sort_highlight() {
+      var table = $(this).closest('table');
+      var index = $(this).index();
+      highlight_util(table, index)
+    }
+    highlight_util($("table.dataTable"), {{ sort_column }})
+    {% endif %}
+  });
+{% endmacro %}
+
+{# list of pairs: (label, percentage) #}
+{% macro progress_bar(tuples, bars=('', 'bg-success', 'bg-warning')) %}
+  {% set barslen = bars | length %}
+  <div class="progress">
+      {% for bar in tuples %}
+      {% set class_ = bars[loop.index % barslen] %}
+      <div class="progress-bar {{ class_ }} dds-table-wide" style="width: {{ bar[1] }}%;">{{ bar[0] }}</div>
+      {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro show_missions(open_missions) %}
+  <fieldset>
+    <legend><label>Open Missions</label></legend>
+    <table class="table table-striped text-center table-bordered table-sm">
+      <tr>
+        <th>CallSign</th>
+        <th>Type</th>
+        <th>PHEC</th>
+        <th>Hoist / Extraction / Ventilator</th>
+        <th>Seat / Litter / Seat w/litter</th>
+      </tr>
+      {% for CallSign, Type, PHEC, eqpt, capacity in open_missions %}
+        <tr>
+          <td>{{ CallSign }}</td>
+          <td>{{ Type }}</td>
+          <td>{{ PHEC }}</td>
+          <td>{{ eqpt }}</td>
+          <td>{{ capacity }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </fieldset>
+{% endmacro %}

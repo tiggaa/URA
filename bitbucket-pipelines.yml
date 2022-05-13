@@ -1,0 +1,12 @@
+image: python:3.7
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - pip
+        script:
+          - python --version
+          - pip install -r requirements.txt
+          - coverage run -m pytest
+          - coverage report

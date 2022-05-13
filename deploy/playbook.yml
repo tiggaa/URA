@@ -1,0 +1,87 @@
+---
+- hosts: all
+  vars:
+    # needed as "~" for root is root's home
+    home_dir: /home/{{ ansible_user }}
+    target_dir: "{{ home_dir }}/UserStoreyApp/{{ commit }}"
+    target_symlink: "{{ home_dir }}/UserStoreyApp-dir"
+    venv_path: "{{ target_dir }}/venv"
+    venv_flask: "{{ target_dir }}/venv/bin/flask"
+    http_port: 80
+  tasks:
+  - name: zap deploy dir
+    become: yes
+    file:
+      path: "{{ target_dir }}"
+      state: absent
+  - name: create deploy dir
+    file:
+      path: "{{ target_dir }}/log"
+      state: directory
+  - name: copy and unarchive artifact
+    unarchive:
+      src: "{{ artifact }}"
+      dest: "{{ target_dir }}"
+
+  # python stuff
+  - name: ensure pip and venv
+    become: yes
+    apt:
+      update_cache: yes
+      state: latest
+      pkg:
+      - python3-pip
+      - python3-venv
+  - name: install python modules in venv
+    pip:
+      requirements: "{{ target_dir }}/requirements.txt"
+      virtualenv: "{{ venv_path }}"
+      virtualenv_command: python3 -m venv
+
+  # app stuff
+  - name: init db
+    environment:
+      FLASK_APP: UserStoreyApp
+    shell:
+      chdir: "{{ target_dir }}"
+      cmd: |
+        {{ venv_flask }} db init && {{ venv_flask }} db demo
+
+  # removing python stuff because security
+  - name: remove venv pip
+    pip:
+      name: pip
+      virtualenv: "{{ venv_path }}"
+      virtualenv_command: python3 -m venv
+      state: absent
+  - name: remove ubuntu pip
+    become: yes
+    apt:
+      state: absent
+      pkg:
+      - python3-pip
+
+  # restart with new version
+  - name: symlink to new location
+    file:
+      src: "{{ target_dir }}"
+      dest: "{{ target_symlink }}"
+      state: link
+  - name: stop web service
+    become: yes
+    shell: killall gunicorn || true
+  - name: start web service
+    become: yes
+    environment:
+      GUNICORN_CMD_ARGS: "-b :{{ http_port }}"
+    gunicorn:
+      chdir: "{{ target_symlink }}"
+      virtualenv: "{{ venv_path }}"
+      app: RAPID:app
+      config: "{{ target_symlink }}/deploy/gunicorn-conf.py"
+
+  # check worked
+  - name: ensure web service running
+    shell:
+      cmd: curl --fail http://localhost:{{ http_port }}
+      warn: no

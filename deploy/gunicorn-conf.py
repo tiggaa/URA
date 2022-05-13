@@ -1,0 +1,1 @@
+errorlog = 'log/error.log'

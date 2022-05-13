@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% from 'includes/_formhelpers.html' import render_field_grid %}
+    <h1>Create User</h1>
+    <div class="content-section">
+      <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Create New User</legend>
+          <div class="form-group">
+            {{ render_field_grid(form.username) }}
+            {{ render_field_grid(form.email) }}
+            {{ render_field_grid(form.password) }}
+            {{ render_field_grid(form.confirm_password) }}
+          </div>
+        </fieldset>
+        <div class="form-group">
+          {{ form.submit(class="btn btn-success") }}
+        </div>
+      </form>
+    </div>
+    <div class="border-top pt-3">
+{% endblock body %}

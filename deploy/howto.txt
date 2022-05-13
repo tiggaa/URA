@@ -1,0 +1,29 @@
+Approx steps:
+- In EC2, create t2.micro instance
+- Launch it
+- Select Ubuntu
+- Select t2.micro (free tier)
+- Review and launch
+- Capture the names / generate PEMs
+- On right, select Security groups / launch-wizard
+- Actions / Edit inbound rules
+- Add HTTP and HTTPS, save
+
+To login manually:
+- sh deploy/upload.sh -l
+
+To monitor the AWS instance, doing a web request once a second:
+- sh deploy/upload.sh -m
+
+To deploy:
+- ensure ansible is installed: brew install ansible
+- fingers and toes of the basics: ansible -i deploy/inventory all -m ping
+- sh deploy/upload.sh
+
+To create ansible-able Vagrant:
+# cf https://medium.com/@Joachim8675309/vagrant-provisioning-with-ansible-6dba6bca6290
+- brew cask install vagrant
+# as of 20200115, next doesn't work as is 6.1 and only <= 6.0 supported, so go https://www.virtualbox.org/wiki/Download_Old_Builds_6_0
+- brew cask install virtualbox
+- VAGRANT_CWD=deploy vagrant up --provider=virtualbox --no-provision
+- sh deploy/upload.sh -v

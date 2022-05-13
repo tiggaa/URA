@@ -1,0 +1,22 @@
+__pycache__
+UserResearch/db/site.db
+venv
+
+RAPID/static/styles/css/main.css
+# This file is a proprietary MAC OS system file holds attributes/meta-data about the folder it resides in & DS_Store: Desktop Services Store
+.DS_Store
+# Flask-Asset creates .webassets-cache file
+.webassets-cache/
+
+.coverage
+htmlcov/
+
+.vscode
+.idea
+
+test/__fixtures__.db
+
+deploy/Rapid.pem
+deploy/RapidTest.pem
+deploy/rapid_aws.pem
+deploy/.vagrant/

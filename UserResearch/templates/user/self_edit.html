@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+{% from 'includes/_formhelpers.html' import render_field_grid %}
+<div class="row my-0 py-0">
+  <div class="col-md-3"></div>
+    <div class="content-section col-md-6">
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Current Account Info</legend>
+            <div class="media">
+              <img class="rounded-circle account-img" height=125 width=125 src="{{ url_for('static',filename='images/System-users-3.svg.png') }}">
+              <div class="media-body">
+                <h2 class="account-heading">Username: {{ current_user.username }}</h2>
+                <p class="text-secondary">eMail Address: {{ current_user.email }}</p>
+                <p class="text-secondary">Account Type: {{ current_user.acctType.accountType}}</p>
+              </div>
+            </div>
+        </fieldset>
+
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Update Account Info</legend>
+            <div class="form-group">
+              {{ render_field_grid(form.username) }}
+              {{ render_field_grid(form.email) }}
+            </div>
+        </fieldset>
+        <div class="form-group row">
+          <div class="col-md-6">
+            {{ form.submit(class="btn btn govuk-button save float-right") }}
+          </div>
+          <div class="col-md-6">
+            <a class='btn btn govuk-button warning float-right m-1' href="{{ url_for('user.reset_password', user_id=current_user.id) }}">Change Password</a>
+          </div>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock body %}

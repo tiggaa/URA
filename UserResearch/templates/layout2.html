@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if refresh %}
+    <meta http-equiv="refresh" content="{{ refresh }}">
+    {% endif %}
+    <!-- Local copy of https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css As at 07/09/2019 -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/bootstrap/4.3.1/css/bootstrap.min.css') }}">
+    <!-- Configure SASS file from static/sass folder to static/css folder -->
+    {% assets "scss_main"%}
+    <link rel="stylesheet" type="text/css" href="{{ASSET_URL}}"> {% endassets%}
+    <!-- Local copy of mdbootstrap package https://mdbootstrap.com/docs/jquery/getting-started/download/ -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mdb/datatables.css') }}">
+    <!-- Local copy of https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js As at 07/09/2019 -->
+    <script src="{{ url_for('static',filename='styles/JQuery/3.4.1/jquery.min.js') }}"></script>
+    <!-- Local copy of https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js As at 07/09/2019 -->
+    <script src="{{ url_for('static',filename='styles/bootstrap/4.3.1/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Local copy of mdbootstrap package https://mdbootstrap.com/docs/jquery/getting-started/download/  -->
+    <script type="text/javascript" src="{{ url_for('static',filename='styles/mdb/datatables.min.js') }}"></script>
+    <title>RAPID - {{ title or 'PECC' }}</title>
+</head>
+
+<body>
+    <header>
+        {% include 'includes/_navbar.html' %}
+    </header>
+    <div class="px-3">
+        {% block body %}{% endblock %}
+    </div>
+</body>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    $(document).ready(function () {
+        // with this it will give alert on change with all input, text area, select fields
+        $("#alert_form").on("input change", function () {
+            window.onbeforeunload = window.onbeforeunload || function (e) {
+                return "You have unsaved changes.  Do you want to leave this page and lose your changes?";
+            };
+        });
+        $("#alert_form").on("submit", function () {
+            window.onbeforeunload = null;
+        });
+    })
+</script>
+
+</html>
