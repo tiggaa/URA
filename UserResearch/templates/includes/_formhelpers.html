@@ -25,6 +25,22 @@
   {% endif %}
 {% endmacro %}
 
+{% macro render_disabled_field(field, editable=False, class_="") %}
+  {% if field.__class__.__name__ == 'SelectField' %}
+    {% set thisvalue = dict(field.choices)[field.data] %}
+  {% else %}
+    {% set thisvalue = field.data %}
+  {% endif %}
+  <label class="form-control-plaintext w-auto {{ class_ }}"
+    id="{{ field.name }}">
+    {{ thisvalue }}
+  </label>
+  <!-- <input type="hidden" readonly name="{{ field.name }}" value="{{ field.data }}" > -->
+    {% for error in field.errors %}
+      <div class="help-inline text-danger" >{{ error }}</div>
+    {% endfor %}
+{% endmacro %}
+
 {% macro render_toggle(name, checked, value, label) %}
   {% set thisid = "{}{}".format(name, value) %}
   <div class="col-lg-12 custom-control custom-switch">
@@ -58,6 +74,13 @@
   <div class="form-group row">
     <label class="col-lg-{{ left }} col-form-label">{{field.label}}</label>
     <div class="col-lg-{{ right }}">{{ render_field(field, **kwargs) }}</div>
+  </div>
+{% endmacro %}
+
+{% macro render_field_grid_disabled(field, left=4, right=8) %}
+  <div class="form-group row">
+    <label class="col-lg-{{ left }} col-form-label">{{field.label}}</label>
+    <div class="col-lg-{{ right }}">{{ render_disabled_field(field, editable=false) }}</div>
   </div>
 {% endmacro %}
 

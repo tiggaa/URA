@@ -1,12 +1,18 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from UserResearch import db, bcrypt
+from UserResearch.util import accounts_forbidden
 from UserResearch.models import User, Post
-from UserResearch.blueprints.users.forms import (RegistrationForm, LoginForm,
-                                UpdateAccountForm, RequestResetForm, ResetPasswordForm)
-from UserResearch.blueprints.users.utils import save_picture, send_reset_email
+from .forms import (RegistrationForm, LoginForm,
+                    UpdateAccountForm, RequestResetForm, ResetPasswordForm,
+                    AdminEdit_Form, ResetPassword_Form)
+from .utils import save_picture, send_reset_email
 
 users = Blueprint('users', __name__)
+
+@users.route("/splash")
+def splash():
+    return render_template('user/splash.html', title='Not Logged In')
 
 @users.route("/register", methods=['GET', 'POST'])
 def register():
@@ -15,7 +21,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password, acctType_id=1)
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created! You are now able to log in', 'success')
@@ -39,7 +45,7 @@ def login():
     return render_template('user/login.html', title='Login', form=form)
 
 @users.route("/account", methods=['GET', 'POST'])
-@login_required
+@accounts_forbidden([5])
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
@@ -54,11 +60,13 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+        form.acctType.data = current_user.acctType.acctType
+        image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('user/account.html', title='Account',
                            image_file=image_file, form=form)
 
 @users.route("/user/<string:username>")
+@accounts_forbidden([1])
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
@@ -70,7 +78,7 @@ def user_posts(username):
 @users.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('main.home'))
+    return redirect(url_for('users.splash'))
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
@@ -100,3 +108,53 @@ def reset_token(token):
         flash(f'Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('users.login'))
     return render_template('user/reset_token.html', title='Reset Password', form=form)
+
+@users.route("/list", methods=['GET'])
+@accounts_forbidden([1, 2])
+def list():
+    users = User.query.all()
+    return render_template('user/list.html', title='User Management', users=users)
+
+@users.route("/<int:user_id>/admin_edit", methods=['GET', 'POST'])
+@accounts_forbidden([1, 2, 3])
+def admin_edit(user_id):
+    user = User.query.get_or_404(user_id)
+    form = AdminEdit_Form()
+    if request.method == 'GET':
+        form.username.default = user.username
+        form.old_username.default = user.username
+        form.email.default = user.email
+        form.old_email.default = user.email
+        form.accountType.default = user.acctType_id
+        form.process()
+    elif form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        user.acctType_id = form.accountType.data
+        db.session.commit()
+        flash('Account details have been updated!', 'success')
+        return redirect(url_for('users.list'))
+    return render_template('user/admin_edit.html', title='Edit User', form=form)
+
+@users.route("/<int:user_id>/reset_password/", methods=['GET', 'POST'])
+@login_required
+def reset_password(user_id):
+    if current_user.id != user_id:
+        if current_user.acctType_id != 4:
+            flash('ACCESS DENIED! You do not have the correct permissions to update somebody elses Password', 'danger')
+            return redirect(url_for('user.splash'))
+    user = User.query.get_or_404(user_id)
+    form = ResetPassword_Form()
+    if request.method == 'GET':
+        image_file = url_for('static', filename='profile_pics/' + user.image_file)
+        pass
+    elif form.validate_on_submit():
+        hashed_password = hash_generate(form.password.data)
+        user.password = hashed_password
+        db.session.commit()
+        flash('The password has been updated!', 'success')
+        if current_user.id != user_id:
+            return redirect(url_for('user.list'))
+        else:
+            return redirect(url_for('user.self_edit'))
+    return render_template('user/reset_password.html', title='Reset Password', user=user, image_file=image_file, form=form)

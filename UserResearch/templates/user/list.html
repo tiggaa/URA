@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
-{% block body %}
+{% block content %}
 <div>
   <div class="row">
       <div class="col-lg-11">
             <h1 class="font-weight-bold page-title"><small>User Management</small></h1>
         </div>
         <div class="col-lg-1">
-            <a class='btn btn govuk-button save float-right m-1' href="{{ url_for('user.add') }}">New User</a>
+            <a class='btn btn govuk-button save float-right m-1' href="#">New User</a>
         </div>
     </div>
     <div class="row">
@@ -26,13 +26,13 @@
               <tr role="row" class="odd">
                 <td class="sorting_1">{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                <td><a class="btn btn-primary" href="{{ url_for('user.reset_password', user_id=user.id)}}">Reset Password</a></td>
-                <td>{{ user.acctType.accountType }}</td>
-                <td><a class="btn btn-secondary" href="{{ url_for('user.admin_edit', user_id=user.id)}}">  Edit  </a></td>
+                <td><a class="btn btn-primary" href="{{ url_for('users.reset_password', user_id=user.id)}}">Reset Password</a></td>
+                <td>{{ user.acctType.acctType }}</td>
+                <td><a class="btn btn-secondary" href="{{ url_for('users.admin_edit', user_id=user.id)}}">  Edit  </a></td>
               </tr>
               {% endfor %}
             </table>
       </div>
     </div>
 </div>
-{% endblock body %}
+{% endblock content %}

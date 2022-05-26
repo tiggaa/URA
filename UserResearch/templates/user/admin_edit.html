@@ -1,5 +1,5 @@
-{% extends 'layout.html' %}
-{% block body %}
+{% extends "layout.html" %}
+  {% block content %}
 {% from 'includes/_formhelpers.html' import render_field_grid %}
   <h1>Edit User Details</h1>
     <form id="alert_form" method="POST" action="">
@@ -22,14 +22,14 @@
         <div class="col-lg-3">1</div>
         <div class="col-lg-6 row">
           <div class="col-lg-6">
-            <a class='btn btn govuk-button warning float-right m-1' href="{{ url_for('user.list') }}">Cancel</a>
+            <a class='btn btn btn-primary warning float-right m-1' href="{{ url_for('users.list') }}">Cancel</a>
           </div>
           <div class="col-lg-6">
             <div class="form-group">
-              {{ form.submit(class="btn btn govuk-button save float-right") }}
+              {{ form.submit(class="btn btn btn-warning save float-right") }}
             </div>
           </div>
         </div>
       </div>
     </form>
-{% endblock%}
+  {% endblock content %}

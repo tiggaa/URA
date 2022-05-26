@@ -1,12 +1,12 @@
 <!-- NAVIGATION BAR -->
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
+<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 
   <!-- Navbar brand name -->
   {% if current_user.is_authenticated %}
-  <a href="/" class="navbar-brand icon-bold font-weight-bold"> RAPID</a>
+  <a href="/" class="navbar-brand icon-bold font-weight-bold"> URT</a>
   {% else %}
-    <a class="navbar-brand" href="{{ url_for('user.splash') }}">RAPID</a>
+    <a class="navbar-brand" href="{{ url_for('users.splash') }}">URT</a>
   {% endif %}
   <!-- Navbar-toggler-icon for mobile devices -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-expanded="false"
@@ -17,33 +17,27 @@
   <!-- Navbar collapse under toggler icon while viewing in mobile devices -->
   <div class="collapse  navbar-collapse " id="navbarMenu">
       <ul class="navbar-nav">
-        {% if current_user.accountType_id in [3, 4] %}
+        {% if current_user.acctType_id in [3, 4] %}
           <li class="nav-item">
-              <a href="/" class="nav-link">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
           </li>
           <li class="nav-item">
-              <a href="{{ url_for('Incident.list') }}" class="nav-link">Incident</a>
+              <a class="nav-item nav-link" href="{{ url_for('main.about') }}">Personas</a>
           </li>
           <li class="nav-item">
-              <a href="{{ url_for('Mission.listedit') }}" class="nav-link">Medical Missions</a>
+              <a class="nav-item nav-link" href="/about">User Stories</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-item nav-link" href="/about">Stakeholders</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">Update Details</a>
+              aria-haspopup="true" aria-expanded="false">New</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="{{ url_for('MTF.listedit') }}">Update MTFs</a>
-              <a class="dropdown-item" href="{{ url_for('Station.listedit') }}">Update MEDEVAC Stations</a>
-            </div>
-          </li>
-          {% endif %}
-          {% if current_user.accountType_id in [2, 3, 4] %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">Info Boards</a>
-            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="{{ url_for('MTF.list') }}">View MTFs</a>
-              <a class="dropdown-item" href="{{ url_for('Station.list') }}">View MEDEVAC Stations</a>
-              <a class="dropdown-item" href="{{ url_for('Mission.list') }}">View Medical Missions</a>
+                <a class="dropdown-item" href="{{ url_for('posts.new_post') }}">Project</a>
+                <a class="dropdown-item" href="#">Persona</a>
+                <a class="dropdown-item" href="#">User Storey</a>
+                <a class="dropdown-item" href="#">Stakeholder</a>
             </div>
           </li>
           {% endif %}
@@ -56,24 +50,24 @@
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">Logged in as: {{ current_user.username }} </a>
           <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="{{ url_for('user.self_edit') }}">View / Update Profile</a>
-            <a class="dropdown-item" href="{{ url_for('user.reset_password', user_id=current_user.id) }}">Change Password</a>
-            <a class="dropdown-item" href="{{ url_for('user.logout')}}">Logout</a>
+            <a class="dropdown-item" href="{{ url_for('users.account') }}">View / Update Profile</a>
+            <a class="dropdown-item" href="{{ url_for('users.reset_password', user_id=current_user.id) }}">Change Password</a>
+            <a class="dropdown-item" href="{{ url_for('users.logout')}}">Logout</a>
           </div>
-          {% if current_user.accountType_id == 4 %}
+          {% if current_user.acctType_id == 4 %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="true">&#9881</a>
           <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{{ url_for('upload') }}">Import Data as CSV</a>
             <a class="dropdown-item" href="{{ url_for('download') }}">Export Data as CSV</a>
-            <a class="dropdown-item" href="{{ url_for('user.list')}}">User Management</a>
+            <a class="dropdown-item" href="{{ url_for('users.list')}}">User Management</a>
           </div>
         </li>
         {% endif %}
         {% else %}
         <li class="nav-item">
-          <a class="nav-link navbar-text" href="{{ url_for('user.login') }}">Sign In</a>
+          <a class="nav-link navbar-text" href="{{ url_for('users.login') }}">Sign In</a>
         </li>
         {% endif %}
       </ul>

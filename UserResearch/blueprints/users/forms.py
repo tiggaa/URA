@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, HiddenField, SelectField, IntegerField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Length
 from flask_login import current_user
 from UserResearch.models import User
 
@@ -38,6 +38,7 @@ class UpdateAccountForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+    acctType = StringField('Account Type')
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -64,6 +65,30 @@ class RequestResetForm(FlaskForm):
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
+
+class AdminEdit_Form(FlaskForm):
+    username = StringField('Username',
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    old_username = HiddenField("old_username")
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    old_email = HiddenField("old_email")
+    accountType = SelectField('Account Type',
+                        choices=[('1', 'Not Yet Authorised'), ('2', 'View Only'), ('3', 'Standard User'),('4', 'Administrator')])
+    submit = SubmitField('Update')
+
+    def validate_email(self, email):
+        form = AdminEdit_Form()
+        if email.data != form.old_email.data:
+            user = User_sql.query.filter_by(email=email.data).first()
+            if user:
+                raise validators.ValidationError('That email is taken. Please choose a different one.')
+
+class ResetPassword_Form(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=4)])
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')

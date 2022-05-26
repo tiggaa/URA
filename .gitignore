@@ -1,5 +1,6 @@
 __pycache__
 UserResearch/db/site.db
+UserResearch/db/rapid.db
 venv
 
 RAPID/static/styles/css/main.css

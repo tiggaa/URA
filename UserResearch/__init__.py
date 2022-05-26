@@ -8,13 +8,11 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
+from UserResearch.models import db, create_db
 
 app = Flask(__name__)
-db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'users.login'
-login_manager.login_message_category = 'info'
 mail = Mail()
 
 def config_db(db_uri='sqlite:///db/site.db'):
@@ -27,6 +25,17 @@ def config_db(db_uri='sqlite:///db/site.db'):
         app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[30])
     app.secret_key = "2d9246a23f9992d46a24ee2b8feb73b1"
     db.init_app(app)
+    # db.create_all(app=app)
+    create_db()
+
+def config_sass():
+    #Converting Sass file to Css
+    scss = Bundle('scss/main.scss', filters='pyscss', output='styles/css/main.css')
+    #SCSS Connection
+    assets = Environment(app)
+    assets.url= app.static_url_path
+    assets.debug=True
+    assets.register('scss_main', scss)
 
 def config_mailserver():
     MAIL_SERVER = 'smtp.googlemail.com'
