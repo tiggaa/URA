@@ -14,6 +14,7 @@ app = Flask(__name__)
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 mail = Mail()
+migrate = Migrate(app, db)
 
 def config_db(db_uri='sqlite:///db/site.db'):
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -25,8 +26,8 @@ def config_db(db_uri='sqlite:///db/site.db'):
         app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[30])
     app.secret_key = "2d9246a23f9992d46a24ee2b8feb73b1"
     db.init_app(app)
-    # db.create_all(app=app)
-    create_db()
+    db.create_all(app=app)
+    # create_db()
 
 def config_sass():
     #Converting Sass file to Css

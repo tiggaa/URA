@@ -135,17 +135,16 @@ def create_db():
     except: pass # pragma: no cover
     from UserResearch import app
     db.create_all(app=app)
-
-def create_data():
     import csv
     import os
-    for table in INIT_TABLES:
-        filename = table.__name__ + '.csv'
-        filename = os.path.join(INIT_DIRECTORY_NAME, filename)
-        with open(filename, newline='') as file:
-            for row in csv.DictReader(file):
-                db.session.add(table(**row))
-    db.session.commit()
+    with app.app_context():
+        for table in INIT_TABLES:
+            filename = table.__name__ + '.csv'
+            filename = os.path.join(INIT_DIRECTORY_NAME, filename)
+            with open(filename, newline='') as file:
+                for row in csv.DictReader(file):
+                    db.session.add(table(**row))
+        db.session.commit()
 
 DIRECTORY_NAME = "test/data"
 

@@ -1,5 +1,5 @@
-id,acctType
-1,Not Yet Authorised
-2,View Only
-3,Standard User
-4,Administrator
+acctType
+Not Yet Authorised
+View Only
+Standard User
+Administrator
