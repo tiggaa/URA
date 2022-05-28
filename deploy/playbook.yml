@@ -3,8 +3,8 @@
   vars:
     # needed as "~" for root is root's home
     home_dir: /home/{{ ansible_user }}
-    target_dir: "{{ home_dir }}/UserStoreyApp/{{ commit }}"
-    target_symlink: "{{ home_dir }}/UserStoreyApp-dir"
+    target_dir: "{{ home_dir }}/UserResearch/{{ commit }}"
+    target_symlink: "{{ home_dir }}/UserResearch-dir"
     venv_path: "{{ target_dir }}/venv"
     venv_flask: "{{ target_dir }}/venv/bin/flask"
     http_port: 80
@@ -41,11 +41,11 @@
   # app stuff
   - name: init db
     environment:
-      FLASK_APP: UserStoreyApp
+      FLASK_APP: UserResearch
     shell:
       chdir: "{{ target_dir }}"
       cmd: |
-        {{ venv_flask }} db init && {{ venv_flask }} db demo
+        python3 {{ target_dir }}/InitDb.py
 
   # removing python stuff because security
   - name: remove venv pip
