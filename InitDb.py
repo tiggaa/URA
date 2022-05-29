@@ -1,5 +1,5 @@
-from UserResearch import db, app
-from UserResearch.models import (User_type, User, Post, Rank, Service,
+from UserResearch import app
+from UserResearch.models import (db, User_type, User, Post, Rank, Service,
                                 Service_type, Worker_type, Team, Project,
                                 TeamMembers )
 
