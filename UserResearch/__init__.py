@@ -1,5 +1,5 @@
 import os
-import click
+# import click
 from flask import Flask
 from flask.cli import AppGroup
 from UserResearch.login import login_init_app
@@ -72,14 +72,14 @@ def db_demo(): # pragma: no cover
     from UserResearch.models import create_demo_data
     create_demo_data()
 
-@db_cli.command('save')
-@click.argument('dir')
-def db_save(dir): # pragma: no cover
-    from UserResearch.models import TABLES_TO_SAVE, table_to_csv_file
-    for table in TABLES_TO_SAVE:
-        filename = table.__name__ + '.csv'
-        filename = os.path.join(dir, filename)
-        with open(filename, 'w', newline='') as file:
-            table_to_csv_file(table, file)
+# @db_cli.command('save')
+# @click.argument('dir')
+# def db_save(dir): # pragma: no cover
+#     from UserResearch.models import TABLES_TO_SAVE, table_to_csv_file
+#     for table in TABLES_TO_SAVE:
+#         filename = table.__name__ + '.csv'
+#         filename = os.path.join(dir, filename)
+#         with open(filename, 'w', newline='') as file:
+#             table_to_csv_file(table, file)
 
 app.cli.add_command(db_cli)

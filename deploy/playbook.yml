@@ -7,7 +7,7 @@
     target_symlink: "{{ home_dir }}/UserResearch-dir"
     venv_path: "{{ target_dir }}/venv"
     venv_flask: "{{ target_dir }}/venv/bin/flask"
-    http_port: 80
+    http_port: 5000
   tasks:
   - name: zap deploy dir
     become: yes
@@ -40,12 +40,9 @@
 
   # app stuff
   - name: init db
-    environment:
-      FLASK_APP: UserResearch
     shell:
       chdir: "{{ target_dir }}"
-      cmd: |
-        python3 {{ target_dir }}/InitDb.py
+      cmd: . venv/bin/activate && python InitDb.py && python InitDbData.py && deactivate
 
   # removing python stuff because security
   - name: remove venv pip
@@ -75,12 +72,14 @@
     environment:
       GUNICORN_CMD_ARGS: "-b :{{ http_port }}"
     gunicorn:
+      app: UserResearch:app
       chdir: "{{ target_symlink }}"
-      virtualenv: "{{ venv_path }}"
-      app: RAPID:app
+      venv: "{{ venv_path }}"
       config: "{{ target_symlink }}/deploy/gunicorn-conf.py"
 
   # check worked
+  # - name: install curl
+  #   shell: apt install curl -y
   - name: ensure web service running
     shell:
       cmd: curl --fail http://localhost:{{ http_port }}
