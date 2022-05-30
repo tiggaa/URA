@@ -8,7 +8,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
-from UserResearch.models import db, create_db
+from UserResearch.models import db
 
 app = Flask(__name__)
 bcrypt = Bcrypt()

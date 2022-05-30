@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <div class="row">
+      <div class="col-lg-11">
+            <h1 class="font-weight-bold page-title"><small>Projects</small></h1>
+        </div>
+        <div class="col-lg-1">
+            <a class='btn btn btn-primary save float-right m-1' href="#">New Project</a>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 table-responsive">
+            <table class="display table table-striped text-center table-bordered table-sm dataTable"
+              cellspacing="0" width="100%" role="grid" aria-describedby="dtBasicExample_info" style="width: 100%;">
+              <thead>
+                <tr role="row">
+                  <th>ID</th>
+                  <th>Project Name</th>
+                  <th>Project Description</th>
+                  <th>Update Project</th
+                </tr>
+              </thead>
+              {% for project in Projects %}
+              <tr role="row" class="odd">
+                <td class="sorting_1">{{ project.id }}</td>
+                <td>{{ project.project_name }}</td>
+                <td>{{ project.project_description }}</td>
+                <td><a class="btn btn-secondary" href="{{ url_for('projects.add')}}">  Edit  </a></td>
+              </tr>
+              {% endfor %}
+            </table>
+      </div>
+    </div>
+</div>
+{% endblock content %}
