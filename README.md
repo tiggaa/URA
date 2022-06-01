@@ -1,12 +1,12 @@
-# PROJECT OVERFLIGHT
+# User Research Tool (URT)
 
 ## Introduction
 
-The Project OVERFLIGHT is a trial of Agile within Defence. This
-tool will aid Patient Evacuation Coordination Cells (PECCs) in
-decision making regarding the tasking of Air Evacuation Assets to
-get casualties to the most advantageous Medical Treatment Facility,
-thus minimising the impact of the injury to the individual.
+The User Research Tool (URT) is designed to help User Researchers to create
+User Personas, User Stories, and also track project Stakeholders.
+A User Storey cannot be created without first creating a User Persona, so
+the UR will need to know who they are creating the storey for. The Personas
+can be updated at any time.
 
 ## Getting Started
 Guide users through getting your code up and running on their own system:
@@ -14,8 +14,6 @@ Guide users through getting your code up and running on their own system:
 ### Software and Account dependencies
 - Integrated Development Environment (IDE) i.e Atom, VS Code
 - Browser i.e Chrome, Safari, Opera
-- Jira, Google Authenticator, Trello, Bitbucket (all account using cabinet office a/c)
-- VPN i.e OpenVPN (windows) and TunnelVPN (Mac)
 - Install latest Python 3.7.X Version (select default setting)
 - Install Git (select default setting)
 
@@ -29,15 +27,8 @@ Guide users through getting your code up and running on their own system:
 
 ### Getting the project code on your system
 
-Either extract from the archive on the GDrive in "30 - Testing versions", or clone from Bitbucket (see below).
-
-Generate the archive to put on GDrive like so:
-
-`git archive -o ../project-overflight-flask.zip HEAD`
-
-#### Download Bitbucket Repo
-- Open your bitbucket account
-- Select 'Project Overflight Flask' Project
+#### Download GitHub Repo
+- Availble from https://github.com/tiggaa/URT
 - In the 'Source' folder - Click 'Clone' and copy the link
 - Open your Project folder via cmd/terminal and paste the link (for the first time user, it might ask your for your username and password)
 
@@ -56,10 +47,10 @@ Generate the archive to put on GDrive like so:
     - `pip install -r requirements-dev.txt`
 
 ## Create (or re-create) your local db - deletes all current data
-- `flask db init`
+- `python InitDb.py`
 
 ## Populate local db with demo data
-- `flask db demo`
+- `python InitDbData.py`
 
 ## Run server
 - `FLASK_ENV=development flask run` (Mac)
@@ -67,11 +58,3 @@ Generate the archive to put on GDrive like so:
 
 ## Deactivate the virtual environment
 - `deactivate`
-
-## Run tests and coverage
-
-### To run the tests in series
-- `coverage run -m pytest; coverage report`
-
-### To run the tests in parallel
-- `pytest --cov=RAPID --concmode=mproc test/`
