@@ -111,65 +111,64 @@ def edit_persona(id):
             picture_file = save_picture(form.picture.data)
         else:
             picture_file = 'default.jpeg'
-        persona = Persona(
-            project_id                  = form.project_id.data,
-            image_file                  = picture_file,
-            job_title                   = form.job_title.data,
-            job_role                    = form.job_role.data,
-            lower_rank                  = form.lower_rank.data,
-            higher_rank                 = form.higher_rank.data,
-            profile_narrative           = form.profile_narrative.data,
-            name                        = form.name.data,
-            age                         = form.age.data,
-            service                     = form.service.data,
-            service_type                = form.service_type.data,
-            worker_type                 = form.worker_type.data,
-            length_of_service           = form.length_of_service.data,
-            location                    = form.location.data,
-            hobbies                     = form.hobbies.data,
-            personality                 = form.personality.data,
-            internet_primary_use        = form.internet_primary_use.data,
-            internet_favourite_sites    = form.internet_favourite_sites.data,
-            internet_computer           = form.internet_computer.data,
-            tool_req_scalable_training  = form.tool_req_scalable_training.data,
-            tool_req_tool_training      = form.tool_req_tool_training.data,
-            tool_req_tool_awareness     = form.tool_req_tool_awareness.data,
-            tool_req_tool_knowledge     = form.tool_req_tool_knowledge.data,
-            tool_req_data_input_req     = form.tool_req_data_input_req.data,
-            user_goals                  = form.user_goals.data,
-            business_goals              = form.business_goals.data,
-            )
+        persona.project_id                  = form.project_id.data
+        persona.image_file                  = picture_file
+        persona.job_title                   = form.job_title.data
+        persona.job_role                    = form.job_role.data
+        persona.lower_rank                  = form.lower_rank.data
+        persona.higher_rank                 = form.higher_rank.data
+        persona.profile_narrative           = form.profile_narrative.data
+        persona.name                        = form.name.data
+        persona.age                         = form.age.data
+        persona.service                     = form.service.data
+        persona.service_type                = form.service_type.data
+        persona.worker_type                 = form.worker_type.data
+        persona.length_of_service           = form.length_of_service.data
+        persona.location                    = form.location.data
+        persona.hobbies                     = form.hobbies.data
+        persona.personality                 = form.personality.data
+        persona.internet_primary_use        = form.internet_primary_use.data
+        persona.internet_favourite_sites    = form.internet_favourite_sites.data
+        persona.internet_computer           = form.internet_computer.data
+        persona.tool_req_scalable_training  = form.tool_req_scalable_training.data
+        persona.tool_req_tool_training      = form.tool_req_tool_training.data
+        persona.tool_req_tool_awareness     = form.tool_req_tool_awareness.data
+        persona.tool_req_tool_knowledge     = form.tool_req_tool_knowledge.data
+        persona.tool_req_data_input_req     = form.tool_req_data_input_req.data
+        persona.user_goals                  = form.user_goals.data
+        persona.business_goals              = form.business_goals.data
+
         db.session.commit()
         flash(f'Your persona has been updated!', 'success')
         return redirect(url_for('personas.list'))
     # GET
     elif request.method == 'GET':
-        form.project_id.data = persona.project_id
-        form.picture.data = persona.image_file
-        form.job_title.data = persona.job_title
-        form.job_role.data = persona.job_role
-        form.lower_rank.data = persona.lower_rank
-        form.higher_rank.data = persona.higher_rank
-        form.profile_narrative.data = persona.profile_narrative
-        form.name.data = persona.name
-        form.age.data = int(persona.age)
-        form.service.data = persona.service
-        form.service_type.data = persona.service_type
-        form.worker_type.data = persona.worker_type
-        form.length_of_service.data = int(persona.length_of_service)
-        form.location.data = persona.location
-        form.hobbies.data = persona.hobbies
-        form.personality.data = persona.personality
-        form.internet_primary_use.data = persona.internet_primary_use
-        form.internet_favourite_sites.data = persona.internet_favourite_sites
-        form.internet_computer.data = persona.internet_computer
+        form.project_id.data                = persona.project_id
+        form.picture.data                   = persona.image_file
+        form.job_title.data                 = persona.job_title
+        form.job_role.data                  = persona.job_role
+        form.lower_rank.data                = persona.lower_rank
+        form.higher_rank.data               = persona.higher_rank
+        form.profile_narrative.data         = persona.profile_narrative
+        form.name.data                      = persona.name
+        form.age.data                       = int(persona.age)
+        form.service.data                   = persona.service
+        form.service_type.data              = persona.service_type
+        form.worker_type.data               = persona.worker_type
+        form.length_of_service.data         = int(persona.length_of_service)
+        form.location.data                  = persona.location
+        form.hobbies.data                   = persona.hobbies
+        form.personality.data               = persona.personality
+        form.internet_primary_use.data      = persona.internet_primary_use
+        form.internet_favourite_sites.data  = persona.internet_favourite_sites
+        form.internet_computer.data         = persona.internet_computer
         form.tool_req_scalable_training.data = persona.tool_req_scalable_training
-        form.tool_req_tool_training.data = persona.tool_req_tool_training
-        form.tool_req_tool_awareness.data = persona.tool_req_tool_awareness
-        form.tool_req_tool_knowledge.data = persona.tool_req_tool_knowledge
-        form.tool_req_data_input_req.data = persona.tool_req_data_input_req
-        form.user_goals.data = persona.user_goals
-        form.business_goals.data = persona.business_goals
+        form.tool_req_tool_training.data    = persona.tool_req_tool_training
+        form.tool_req_tool_awareness.data   = persona.tool_req_tool_awareness
+        form.tool_req_tool_knowledge.data   = persona.tool_req_tool_knowledge
+        form.tool_req_data_input_req.data   = persona.tool_req_data_input_req
+        form.user_goals.data                = persona.user_goals
+        form.business_goals.data            = persona.business_goals
     return render_template('personas/add.html', title='Edit Persona', form=form)
 
 @personas.route("/<int:id>/delete_persona", methods=['GET'])
