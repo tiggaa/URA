@@ -59,6 +59,7 @@ class Project(db.Model):
     project_name= db.Column(db.String(100), nullable=False)
     project_description= db.Column(db.Text, nullable=False)
     project_team= db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+    persona     = db.relationship('Persona', backref='projectList', lazy=True)
 
 class Team(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
@@ -78,14 +79,17 @@ class Rank(db.Model):
 class Service(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     service     = db.Column(db.String(5), nullable=False)
+    persona     = db.relationship('Persona', backref='serviceList', lazy=True)
 
 class Service_type(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     service_type = db.Column(db.String(5), nullable=False)
+    persona     = db.relationship('Persona', backref='serviceTypeList', lazy=True)
 
 class Worker_type(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     worker_type = db.Column(db.String(5), nullable=False)
+    persona     = db.relationship('Persona', backref='workerType', lazy=True)
 
 class Persona(db.Model):
     id          = db.Column(db.Integer, primary_key=True)

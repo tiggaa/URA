@@ -35,7 +35,6 @@
     id="{{ field.name }}">
     {{ thisvalue }}
   </label>
-  <!-- <input type="hidden" readonly name="{{ field.name }}" value="{{ field.data }}" > -->
     {% for error in field.errors %}
       <div class="help-inline text-danger" >{{ error }}</div>
     {% endfor %}
@@ -70,6 +69,20 @@
   </fieldset>
 {% endmacro %}
 
+{% macro render_slider_grid(field, left=4, right=8) %}
+  <div class="form-group row">
+    <label class="col-lg-{{ left }} col-form-label">{{ field.label }}</label>
+    <input type="range" class="form-range col-lg-{{ right }}" id={{field}}
+  </div>
+{% endmacro %}
+
+{% macro render_slider_grid_disabled(fieldtitle, field, left=3, right=8) %}
+  <div class="form-group row">
+    <label for="disabledRange" class="col-lg-{{ left }} col-form-label">{{ fieldtitle }}</label>
+    <input type="range" class="form-range col-lg-{{ right }}" value="{{ field }}" id="disabledRange" disabled>
+  </div>
+{% endmacro %}
+
 {% macro render_field_grid(field, left=4, right=8) %}
   <div class="form-group row">
     <label class="col-lg-{{ left }} col-form-label">{{field.label}}</label>
@@ -81,6 +94,30 @@
   <div class="form-group row">
     <label class="col-lg-{{ left }} col-form-label">{{field.label}}</label>
     <div class="col-lg-{{ right }}">{{ render_disabled_field(field, editable=false) }}</div>
+  </div>
+{% endmacro %}
+
+{% macro render_readonly_grid(fieldtitle, field, left=3, right=9) %}
+  <div class="form-group row">
+    <label class="col-lg-{{ left }}">{{ fieldtitle }}</label>
+    <div class="col-lg-{{ right }}">{{ field }}</div>
+  </div>
+{% endmacro %}
+
+{% macro render_split_grid( left_label, left_field, right_label, right_field, left=6, right=6 ) %}
+  <div class="form-group row">
+    <div class="col-lg-{{ left }}">
+      <div class="form-group row">
+        <label class="col-lg-4">{{ left_label }}</label>
+        <div class="col-lg-8">{{ left_field }}</div>
+      </div>
+    </div>
+    <div class="col-lg-{{ right }}">
+      <div class="form-group row">
+        <label class="col-lg-4">{{ right_label }}</label>
+        <div class="col-lg-8">{{ right_field }}</div>
+      </div>
+    </div>
   </div>
 {% endmacro %}
 

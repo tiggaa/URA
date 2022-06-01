@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <div class="row">
+      <div class="col-lg-11">
+            <h1 class="font-weight-bold page-title"><small>Personas</small></h1>
+        </div>
+        <div class="col-lg-1">
+            <a class='btn btn btn-primary save float-right m-1' href="{{ url_for('personas.add')}}">New Persona</a>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 table-responsive">
+            <table class="display table table-striped text-center table-bordered table-sm dataTable"
+              cellspacing="0" width="100%" role="grid" aria-describedby="dtBasicExample_info" style="width: 100%;">
+              <thead>
+                <tr role="row">
+                  <th>ID</th>
+                  <th>Project</th>
+                  <th>Job Title</th>
+                  <th>Job Role</th>
+                  <th>Update Persona</th>
+                  <th>View Persona</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              {% for persona in personas %}
+              <tr role="row" class="odd">
+                <td class="sorting_1">{{ persona.id }}</td>
+                <td>{{ persona.projectList.project_name }}</td>
+                <td>{{ persona.job_title }}</td>
+                <td>{{ persona.job_role }}</td>
+                <td><a class="btn btn-secondary" href="{{ url_for('personas.edit_persona', id=persona.id)}}">  Edit  </a></td>
+                <td><a class="btn btn-secondary" href="{{ url_for('personas.view_persona', id=persona.id)}}">  View  </a></td>
+                <td><a class="btn btn-danger" href="{{ url_for('personas.delete_persona', id=persona.id)}}">  Delete  </a></td>
+              </tr>
+              {% endfor %}
+            </table>
+      </div>
+    </div>
+</div>
+{% endblock content %}
+
+delete_persona

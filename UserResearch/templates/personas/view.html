@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% from 'includes/_formhelpers.html' import render_field_grid, render_field_grid_disabled, render_readonly_grid, render_split_grid, render_slider_grid_disabled %}
+<div class="content-section row">
+  <div class="col-md-2"></div>
+    <div class="content-section col-md-8">
+      <div class="media">
+        <img class="rounded-circle account-img" height=125 width=125 src="{{ image_file }}">
+        <div class="media-body">
+          <h2 class="account-heading">Project: {{ persona.projectList.project_name }}</h2>
+          {{ render_readonly_grid("Job Title:", persona.job_title, 2, 9) }}
+          {{ render_readonly_grid("Job Role:", persona.job_role, 2, 9) }}
+          {{ render_readonly_grid("Name:", persona.name, 2, 9) }}
+        </div>
+      </div>
+      <div class="content-section">
+        <legend class="border-bottom mb-4">Job Details</legend>
+        {{ render_split_grid("Lower Rank:", lower.nato_rank + " - " + lower.description, "Upper Rank:", upper.nato_rank + " - " + upper.description) }}
+        {{ render_split_grid("Service:", persona.serviceList.service, "Service Type:", persona.serviceTypeList.service_type) }}
+        {{ render_readonly_grid("Narrative:", persona.profile_narrative, 3, 9) }}
+      </div>
+      <div class="content-section">
+        <legend class="border-bottom mb-4">Person Details</legend>
+        {{ render_readonly_grid("Name:", persona.name) }}
+        {{ render_readonly_grid("Age:", persona.age) }}
+        {{ render_readonly_grid("Worker Type:", persona.workerType.worker_type) }}
+        {{ render_readonly_grid("Length of Service:", persona.length_of_service) }}
+        {{ render_readonly_grid("Location:", persona.location) }}
+        {{ render_readonly_grid("Hobbies:", persona.hobbies) }}
+        {{ render_readonly_grid("Personality:", persona.personality) }}
+        {{ render_readonly_grid("User Goals:", persona.user_goals) }}
+        {{ render_readonly_grid("Business Goals:", persona.business_goals) }}
+      </div>
+      <div class="content-section">
+        <legend class="border-bottom mb-4">Internet Usage</legend>
+        {{ render_readonly_grid("Primary Use:", persona.internet_primary_use) }}
+        {{ render_readonly_grid("Favourite Sites:", persona.internet_favourite_sites) }}
+        {{ render_readonly_grid("Computer:", persona.internet_computer) }}
+      </div>
+      <div class="content-section">
+        <legend class="border-bottom mb-4">Tool Training</legend>
+        {{ render_slider_grid_disabled("Scalable Training:", persona.tool_req_scalable_training) }}
+        {{ render_slider_grid_disabled("Tool Training:", persona.tool_req_tool_training) }}
+        {{ render_slider_grid_disabled("Tool Awareness:", persona.tool_req_tool_awareness) }}
+        {{ render_slider_grid_disabled("Tool Knowledge:", persona.tool_req_tool_knowledge) }}
+        {{ render_slider_grid_disabled("Data Inout Requirments:", persona.tool_req_data_input_req) }}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

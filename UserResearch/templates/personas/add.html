@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% from 'includes/_formhelpers.html' import render_field_grid, render_slider_grid %}
+<div class="content-section row">
+  <div class="col-md-2"></div>
+    <div class="content-section col-md-8">
+    <h1>{{ title }}</h1>
+    <div class="content-section">
+      <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Job Details</legend>
+          <div class="form-group">
+            {{ render_field_grid(form.project_id) }}
+            {{ render_field_grid(form.job_title) }}
+            {{ render_field_grid(form.job_role) }}
+            {{ render_field_grid(form.lower_rank) }}
+            {{ render_field_grid(form.higher_rank) }}
+            {{ render_field_grid(form.profile_narrative) }}
+            {{ render_field_grid(form.service) }}
+            {{ render_field_grid(form.service_type) }}
+          </div>
+          <legend class="border-bottom mb-4">Person Details</legend>
+          <div class="form-group">
+            {{ render_field_grid(form.picture) }}
+            {{ render_field_grid(form.name) }}
+            {{ render_field_grid(form.age) }}
+            {{ render_field_grid(form.worker_type) }}
+            {{ render_field_grid(form.length_of_service) }}
+            {{ render_field_grid(form.location) }}
+            {{ render_field_grid(form.hobbies) }}
+            {{ render_field_grid(form.personality) }}
+
+            {{ render_field_grid(form.user_goals) }}
+            {{ render_field_grid(form.business_goals) }}
+          </div>
+          <legend class="border-bottom mb-4">IT Knowledge</legend>
+          <div class="form-group">
+            {{ render_field_grid(form.internet_primary_use) }}
+            {{ render_field_grid(form.internet_favourite_sites) }}
+            {{ render_field_grid(form.internet_computer) }}
+          </div>
+          <legend class="border-bottom mb-4">Tool Training</legend>
+          <div class="form-group">
+            {{ render_slider_grid(form.tool_req_scalable_training) }}
+            {{ render_slider_grid(form.tool_req_tool_training) }}
+            {{ render_slider_grid(form.tool_req_tool_awareness) }}
+            {{ render_slider_grid(form.tool_req_tool_knowledge) }}
+            {{ render_slider_grid(form.tool_req_data_input_req) }}
+          </div>
+        </fieldset>
+        <div class="form-group">
+          {{ form.submit(class="btn btn-success") }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
