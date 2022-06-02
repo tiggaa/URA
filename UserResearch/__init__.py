@@ -26,7 +26,7 @@ def config_db(db_uri='sqlite:///db/site.db'):
         app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[30])
     app.secret_key = "2d9246a23f9992d46a24ee2b8feb73b1"
     db.init_app(app)
-    db.create_all(app=app)
+    # db.create_all(app=app)
     # create_db()
 
 def config_sass():
