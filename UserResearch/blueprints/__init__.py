@@ -3,4 +3,5 @@ from .posts.routes import posts
 from .main.routes import main
 from .projects.routes import projects
 from .personas.routes import personas
+from .stories.routes import stories
 from .errors.handlers import errors

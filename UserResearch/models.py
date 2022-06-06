@@ -119,3 +119,26 @@ class Persona(db.Model):
     tool_req_data_input_req = db.Column(db.Float)
     user_goals  = db.Column(db.String(100), nullable=False)
     business_goals = db.Column(db.String(100), nullable=False)
+    UserStorey    = db.relationship('User_storey', backref='persona', lazy=True)
+
+    def __repr__(self):
+        return f"Persona('{self.id}', '{self.job_title}', '{self.job_role}')"
+
+
+class User_storey(db.Model):
+    id          = db.Column(db.Integer, primary_key=True)
+    who         = db.Column(db.Integer, db.ForeignKey('persona.id'), nullable=False)
+    what        = db.Column(db.Text, nullable=False)
+    in_order    = db.Column(db.Text, nullable=False)
+    acceptance  = db.relationship('Acceptance', backref='criteria', lazy=True)
+
+
+    def __repr__(self):
+        return f"UserStorey('{self.who}', '{self.what}', '{self.in_order}')"
+
+class Acceptance(db.Model):
+    id          = db.Column(db.Integer, primary_key=True)
+    given       = db.Column(db.Text, nullable=False)
+    when        = db.Column(db.Text, nullable=False)
+    then        = db.Column(db.Text, nullable=False)
+    ur_id       = db.Column(db.Integer, db.ForeignKey('user_storey.id'), nullable=False)

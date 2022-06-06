@@ -25,7 +25,7 @@
               <a class="nav-item nav-link" href="{{ url_for('personas.list') }}">Personas</a>
           </li>
           <li class="nav-item">
-              <a class="nav-item nav-link" href="/about">User Stories</a>
+              <a class="nav-item nav-link" href="{{ url_for('stories.list') }}">User Stories</a>
           </li>
           <li class="nav-item">
               <a class="nav-item nav-link" href="/about">Stakeholders</a>
@@ -40,7 +40,7 @@
                 <a class="dropdown-item" href="{{ url_for('posts.new_post') }}">Post</a>
                 <a class="dropdown-item" href="{{ url_for('projects.add') }}">Project</a>
                 <a class="dropdown-item" href="{{ url_for('personas.add') }}">Persona</a>
-                <a class="dropdown-item" href="#">User Storey</a>
+                <a class="dropdown-item" href="{{ url_for('stories.add') }}">User Storey</a>
                 <a class="dropdown-item" href="#">Stakeholder</a>
             </div>
           </li>
