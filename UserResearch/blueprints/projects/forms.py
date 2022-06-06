@@ -9,4 +9,4 @@ class CreateProjectForm(FlaskForm):
     project_name        = StringField('Project Name', validators=[DataRequired()])
     project_description = TextAreaField('Project Description', validators=[DataRequired()])
     project_team        = StringField('Project Team', validators=[DataRequired()])
-    submit  = SubmitField('Post')
+    submit  = SubmitField('Save')
