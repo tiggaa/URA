@@ -38,11 +38,11 @@
       virtualenv: "{{ venv_path }}"
       virtualenv_command: python3 -m venv
 
-  # app stuff
-  - name: init db
-    shell:
-      chdir: "{{ target_dir }}"
-      cmd: . venv/bin/activate && python InitDb.py && python InitDbData.py && deactivate
+  # # app stuff
+  # - name: init db
+  #   shell:
+  #     chdir: "{{ target_dir }}"
+  #     cmd: . venv/bin/activate && python InitDb.py && python InitDbData.py && deactivate
 
   # removing python stuff because security
   - name: remove venv pip
