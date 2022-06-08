@@ -10,3 +10,9 @@ class CreateStorey_Form(FlaskForm):
     what = TextAreaField('I want to', validators=[DataRequired()])
     in_order = TextAreaField('In order to', validators=[DataRequired()])
     submit  = SubmitField('Save')
+
+class CreateAcceptance_Form(FlaskForm):
+    given = TextAreaField('Given', validators=[DataRequired()])
+    when = TextAreaField('When', validators=[DataRequired()])
+    then = TextAreaField('Then', validators=[DataRequired()])
+    submit  = SubmitField('Add')

@@ -121,6 +121,23 @@
   </div>
 {% endmacro %}
 
+{% macro render_3split_grid( field1, field2, field3, left=4, centre=4, right=4 ) %}
+  <div class="form-group row">
+    <div class="col-lg-{{ left }} col">
+        <label class="col-lg-12 col-form-label" >{{ field1.label }}</label>
+        <div class="col-lg-12">{{ render_field(field1) }}</div>
+    </div>
+    <div class="col-lg-{{ centre }} col">
+        <label class="col-lg-12">{{ field2.label }}</label>
+        <div class="col-lg-12">{{ render_field(field2) }}</div>
+    </div>
+    <div class="col-lg-{{ right }} col">
+        <label class="col-lg-12">{{ field3.label }}</label>
+        <div class="col-lg-12">{{ render_field(field3) }}</div>
+    </div>
+  </div>
+{% endmacro %}
+
 {% macro render_fieldpair_grid(field1, field2, lefteditable=True, righteditable=True, leftshow=True, rightshow=True) %}
   <div class="form-group row">
     <label class="col-lg-4 col-form-label">{{ field2.label }}</label>

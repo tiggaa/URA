@@ -4,22 +4,33 @@
 {% from 'includes/_formhelpers.html' import render_field_grid, render_readonly_grid, render_field_grid_disabled %}
     <h1>{{ title }}</h1>
     <div class="content-section">
-      <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <fieldset class="form-group">
-          <legend class="border-bottom mb-4">{{ title }}</legend>
-          <div class="form-group col-md-12">
-            {{ render_field_grid_disabled(form.who) }}
-            {{ render_field_grid_disabled(form.what) }}
-            {{ render_field_grid_disabled(form.in_order) }}
-          </div>
-        </fieldset>
+      <div class="text-center">
+        <h4>As a {{ personas.job_title }}, I want to {{ stories.what }}, in order to {{ stories.in_order }}.</h4>
+      </div>
+
         <div class="form-group">
           <a class="btn btn-primary" href="{{ url_for('stories.edit', id=stories.id )}}">  Update  </a>
           <a class="btn btn-primary" href="{{ url_for('stories.list', id=stories.id )}}">  Close  </a>
         </div>
-      </form>
     </div>
     <div class="border-top pt-3">
+
+      <div class="col-sm-12 table-responsive">
+        <table class="display table table-striped text-center table-bordered table-sm dataTable"
+          cellspacing="0" width="100%" role="grid" aria-describedby="dtBasicExample_info" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th>ID</th>
+              <th>Acceptance Criteria</th>
+            </tr>
+          </thead>
+          {% for accept in acceptance %}
+          <tr role="row" class="odd">
+            <td class="sorting_1">{{ accept.id }}</td>
+            <td>Given {{ accept.given }}. When {{ accept.when }}. Then {{ accept.then }}.</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
 
 {% endblock content %}
