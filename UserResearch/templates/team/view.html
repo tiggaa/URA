@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% from 'includes/_formhelpers.html' import render_field_grid, render_readonly_grid, render_field_grid_disabled %}
+    <h1>{{ title }}</h1>
+    <div class="content-section">
+      <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">{{ title }}</legend>
+          <div class="form-group col-md-12">
+            {{ render_field_grid_disabled(form.team) }}
+            {{ render_field_grid_disabled(form.team_desc) }}
+          </div>
+        </fieldset>
+        <div class="form-group">
+          <a class="btn btn-primary" href="{{ url_for('team.edit', id=team.id )}}">  Update  </a>
+          <a class="btn btn-primary" href="{{ url_for('team.list', id=team.id )}}">  Close  </a>
+        </div>
+      </form>
+    </div>
+    <div class="border-top pt-3">
+
+    <div class="col-sm-12 table-responsive">
+          <table class="display table table-striped text-center table-bordered table-sm dataTable"
+            cellspacing="0" width="100%" role="grid" aria-describedby="dtBasicExample_info" style="width: 100%;">
+            <thead>
+              <tr role="row">
+                <th>Member ID</th>
+                <th>Username</th>
+                <th>eMail</th>
+              </tr>
+            </thead>
+            {% for member in members %}
+            <tr role="row" class="odd">
+              <td class="sorting_1">{{ member.id }}</td>
+              <td>{{ member.username }}</td>
+              <td>{{ member.email }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+    </div>
+
+
+{% endblock content %}

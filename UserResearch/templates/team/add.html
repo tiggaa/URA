@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% from 'includes/_formhelpers.html' import render_field_grid %}
+    <h1>{{ title }}</h1>
+    <div class="content-section">
+      <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">{{ title }}</legend>
+          <div class="form-group">
+            {{ render_field_grid(form.team) }}
+            {{ render_field_grid(form.team_desc) }}
+          </div>
+        </fieldset>
+        <div class="form-group">
+          {{ form.submit(class="btn btn-success") }}
+          {% if title == 'Update Team' %}
+            <a class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">  Delete  </a>
+          {% endif %}
+          <a class="btn btn-primary" href="{{ url_for('team.list')}}">  Close  </a>
+        </div>
+      </form>
+    </div>
+    <div class="border-top pt-3">
+  {% if title == 'Update Team' %}
+      <!-- Modal -->
+      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">Delete Project?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <form action="{{ url_for('team.delete_team', id=team.id )}}" method="POST">
+                <input class="btn btn-danger" type="submit" value="Delete">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 table-responsive">
+        <div class="form-group">
+        <a class="btn btn-primary" data-toggle="modal" data-target="#AddModal">  Add Member  </a>
+        </div>
+            <table class="display table table-striped text-center table-bordered table-sm dataTable"
+              cellspacing="0" width="100%" role="grid" aria-describedby="dtBasicExample_info" style="width: 100%;">
+              <thead>
+                <tr role="row">
+                  <th>Member ID</th>
+                  <th>Username</th>
+                  <th>eMail</th>
+                  <th>Remove Member</th>
+                </tr>
+              </thead>
+              {% for member in members %}
+              <tr role="row" class="odd">
+                <td class="sorting_1">{{ member.id }}</td>
+                <td>{{ member.username }}</td>
+                <td>{{ member.email }}</td>
+                <td><a class="btn btn-danger" href="{{ url_for('team.remove_member', id=member.id, team=team.id )}}">  Remove  </a></td>
+              </tr>
+              {% endfor %}
+            </table>
+      </div>
+
+  <!-- Modal 2 - Add Member -->
+  <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Add Member</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" method="POST">
+          {{ form2.hidden_tag() }}
+        <div class="modal-body">
+          <fieldset class="form-group">
+              {{ render_field_grid(form2.member) }}
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          {{ form2.submit(class="btn btn-success") }}
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+{% endblock content %}

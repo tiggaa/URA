@@ -65,6 +65,7 @@ class Team(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     team        = db.Column(db.String(100), nullable=False)
     team_desc   = db.Column(db.Text, nullable=False)
+    TeamMembers = db.relationship('TeamMembers', backref='teamlink', lazy=True)
 
 class TeamMembers(db.Model):
     id          = db.Column(db.Integer, primary_key=True)

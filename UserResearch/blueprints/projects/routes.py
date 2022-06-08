@@ -65,7 +65,7 @@ def view(project_id):
 @login_required
 def delete_project(id):
     project = Project.query.get_or_404(id)
-    if (project.persona != ""):
+    if (project.persona != []):
         flash(f'You cannot delete the project whilst personas are allocated!', 'danger')
         return redirect(url_for('projects.edit', project_id=id))
     else:
