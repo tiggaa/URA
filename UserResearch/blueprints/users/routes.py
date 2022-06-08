@@ -21,12 +21,35 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password, acctType_id=1)
+        user = User(
+                username=form.username.data,
+                email=form.email.data,
+                password=hashed_password,
+                acctType_id=1)
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('users.login'))
     return render_template('user/register.html', title='Register', form=form)
+
+@users.route("/user/add", methods=['GET', 'POST'])
+@accounts_forbidden([1, 2, 3])
+def add():
+    form = RegistrationForm()
+    if request.method == 'GET':
+        pass
+    elif form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(
+                username=form.username.data,
+                email=form.email.data,
+                password=hashed_password,
+                acctType_id=1)
+        db.session.add(user)
+        db.session.commit()
+        flash('The account has been created! Please inform the user of their account details', 'success')
+        return redirect(url_for('users.list'))
+    return render_template('user/add.html', title='Add User', form=form)
 
 @users.route("/login", methods=['GET', 'POST'])
 def login():
@@ -134,7 +157,7 @@ def admin_edit(user_id):
         db.session.commit()
         flash('Account details have been updated!', 'success')
         return redirect(url_for('users.list'))
-    return render_template('user/admin_edit.html', title='Edit User', form=form)
+    return render_template('user/admin_edit.html', title='Edit User', id=user_id, form=form)
 
 @users.route("/<int:user_id>/reset_password/", methods=['GET', 'POST'])
 @login_required
@@ -158,3 +181,12 @@ def reset_password(user_id):
         else:
             return redirect(url_for('user.self_edit'))
     return render_template('user/reset_password.html', title='Reset Password', user=user, image_file=image_file, form=form)
+
+@users.route("/user/<int:id>/delete", methods=['GET'])
+@accounts_forbidden([1, 2, 3])
+def user_delete(id):
+    user = User.query.get_or_404(id)
+    db.session.delete(user)
+    db.session.commit()
+    flash(f'The User has been deleted!', 'success')
+    return redirect(url_for('users.list'))

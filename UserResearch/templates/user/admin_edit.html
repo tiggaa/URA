@@ -21,10 +21,13 @@
       <div class="row">
         <div class="col-lg-3">1</div>
         <div class="col-lg-6 row">
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <a class='btn btn btn-primary warning float-right m-1' href="{{ url_for('users.list') }}">Cancel</a>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-4">
+            <a class='btn btn btn-danger warning float-right m-1' href="{{ url_for('users.user_delete', id=id) }}">Delete User</a>
+          </div>
+          <div class="col-lg-4">
             <div class="form-group">
               {{ form.submit(class="btn btn btn-warning save float-right") }}
             </div>
