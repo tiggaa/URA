@@ -28,7 +28,7 @@ Guide users through getting your code up and running on their own system:
 ### Getting the project code on your system
 
 #### Download GitHub Repo
-- Availble from https://github.com/tiggaa/URT
+- Availble from https://github.com/tiggaa/URA
 - In the 'Source' folder - Click 'Clone' and copy the link
 - Open your Project folder via cmd/terminal and paste the link (for the first time user, it might ask your for your username and password)
 
