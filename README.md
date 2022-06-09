@@ -1,8 +1,8 @@
-# User Research Tool (URT)
+# User Research Assitance (URA)
 
 ## Introduction
 
-The User Research Tool (URT) is designed to help User Researchers to create
+The User Research Assistance (URA) Tool is designed to help User Researchers to create
 User Personas, User Stories, and also track project Stakeholders.
 A User Storey cannot be created without first creating a User Persona, so
 the UR will need to know who they are creating the storey for. The Personas
