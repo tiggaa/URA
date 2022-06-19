@@ -1,11 +1,11 @@
-# User Research Assitance (URA)
+# User Research Assistance (URA)
 
 ## Introduction
 
 The User Research Assistance (URA) Tool is designed to help User Researchers to create
 User Personas, User Stories, and also track project Stakeholders.
-A User Storey cannot be created without first creating a User Persona, so
-the UR will need to know who they are creating the storey for. The Personas
+A User Story cannot be created without first creating a User Persona, so
+the UR will need to know who they are creating the story for. The Personas
 can be updated at any time.
 
 ## Demonstration
