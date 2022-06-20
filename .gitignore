@@ -1,9 +1,8 @@
 __pycache__
-UserResearch/db/site1.db
-UserResearch/db/rapid.db
+UserResearch/db/site.db
 venv
 
-RAPID/static/styles/css/main.css
+UserResearch/static/styles/css/main.css
 # This file is a proprietary MAC OS system file holds attributes/meta-data about the folder it resides in & DS_Store: Desktop Services Store
 .DS_Store
 # Flask-Asset creates .webassets-cache file
