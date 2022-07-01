@@ -10,7 +10,7 @@ can be updated at any time.
 
 ## Demonstration
 
-A demonstration of the most current version is available at https://ura.thedds.co.uk/
+A demonstration of the most current version is available at https://rapid.thedds.co.uk/
 
 ## Getting Started
 Guide users through getting your code up and running on their own system:
